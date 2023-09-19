@@ -1,6 +1,3 @@
-import { arrayBuffer } from "stream/consumers";
-import { resourceLimits } from "worker_threads";
-
 /**
  * Consume an array of numbers, and return a new array containing
  * JUST the first and last number. If there are no elements, return
@@ -113,17 +110,17 @@ export function makeMath(addends: number[]): string {
  */
 export function injectPositive(values: number[]): number[] {
     const sum = values.reduce((acc, num) => acc + num, 0);
-    const negativeIndex = values.findIndex((num) => num < 0);
-    if (negativeIndex === -1) {
+    const negindex = values.findIndex((num) => num < 0);
+    if (negindex === -1) {
         return [...values, sum];
     } else {
-        const sumBeforeNegative = values
-            .slice(0, negativeIndex)
+        const negsum = values
+            .slice(0, negindex)
             .reduce((acc, num) => acc + num, 0);
         return [
-            ...values.slice(0, negativeIndex + 1),
-            sumBeforeNegative,
-            ...values.slice(negativeIndex + 1)
+            ...values.slice(0, negindex + 1),
+            negsum,
+            ...values.slice(negindex + 1)
         ];
     }
 }
