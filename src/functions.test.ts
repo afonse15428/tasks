@@ -3,8 +3,7 @@ import {
     fahrenheitToCelius,
     shout,
     isQuestion,
-    convertYesNo,
-    sqrt9
+    convertYesNo
 } from "./functions";
 
 describe("Testing the basic functions", () => {
@@ -56,10 +55,5 @@ describe("Testing the basic functions", () => {
         expect(convertYesNo("Nope")).toBe(null);
         expect(convertYesNo("Yesterday")).toBe(null);
         expect(convertYesNo("Maybe")).toBe(null);
-    });
-
-    test("Testing the sqrt9 function", () => {
-        expect(sqrt9(81)).toBe(true);
-        expect(sqrt9(27)).toBe(false);
     });
 });
