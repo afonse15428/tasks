@@ -59,3 +59,17 @@ export function convertYesNo(word: string): boolean | null {
         return null;
     }
 }
+
+// Created funcitons below
+
+/**
+ * Consumes a number and square roots it to get nine. If the resulting number is 9, return true.
+ *  If any other case, return false.
+ */
+export function sqrt9(digit: number): boolean {
+    if (Math.sqrt(digit) === 9) {
+        return true;
+    } else {
+        return false;
+    }
+}
