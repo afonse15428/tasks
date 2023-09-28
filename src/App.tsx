@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Col, Row } from "react-bootstrap";
 import "./App.css";
-import image from "./huh.webp";
+import image from "./yo.webp";
 import { ChangeType } from "./components/ChangeType";
 import { RevealAnswer } from "./components/RevealAnswer";
 import { StartAttempt } from "./components/StartAttempt";
@@ -27,7 +27,7 @@ function App(): JSX.Element {
             <Button onClick={() => console.log("Hello World!")}>
                 Log Hello World
             </Button>
-            <img src={image} alt="4k machine broke" />
+            <img src={image} alt="my name is skylar white, yo" />
             <Container>
                 <Row>
                     <Col>
