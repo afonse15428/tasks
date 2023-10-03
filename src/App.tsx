@@ -19,10 +19,10 @@ function App(): JSX.Element {
             <header className="App-header">
                 UD CISC275 with React Hooks and TypeScript
             </header>
-            <h1 className="App-header2">
+            {/* <h1 className="App-header2">
                 {" "}
                 Added another header and changed its background color{" "}
-            </h1>
+            </h1> */}
             <ul className="uls">
                 <li> Mango </li>
                 <li> Apple </li>
@@ -61,7 +61,7 @@ function App(): JSX.Element {
                 automatically reload. Hello World - Andrew Fonseca
             </p>
             <hr></hr>
-            {/* <DoubleHalf></DoubleHalf> */}
+            <DoubleHalf></DoubleHalf>
             <hr></hr>
             <ChooseTeam></ChooseTeam>
             <hr></hr>
