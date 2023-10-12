@@ -1,6 +1,6 @@
 {
-    "name": "react-typescript-starter",
-    "homepage": "homepage",
+    "name": "tasks",
+    "homepage": "http://homepage",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -66,5 +66,16 @@
             "!src/reportWebVitals.ts",
             "!src/react-app-env.d.ts"
         ]
+    },
+    "description": "Hello! This repository has been pre-configured with eslint and gh-pages to automatically deploy your app when you push to the main branch.",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/AidanTran/tasks.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/AidanTran/tasks/issues"
     }
 }
