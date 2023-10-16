@@ -52,8 +52,8 @@ export const QuestionEdit = ({
             editQuestion(question.id, {
                 ...question,
                 type: "multiple_choice_question",
-                options: ["Option 1", "Option 2", "Option 3"],
-                expected: "Option 1"
+                options: ["Example Answer", "Example Answer", "Example Answer"],
+                expected: "Example Answer"
             });
             setSelectedOptionIndex(0);
         }
