@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 import { Question, QuestionType } from "../interfaces/question";
 
 import "./QuestionEdit.css";
@@ -10,36 +11,60 @@ export const QuestionEdit = ({
     editQuestion,
     removeQuestion,
     swapQuestion
-}: {}) => {
-    const [a, b] = useState<number>(
-        question.options.findIndex((s: string) => question.expected === s)
+}: {
+    index: number;
+    lastIndex: number;
+    question: Question;
+    editQuestion: (id: number, updatedQuestion: Question) => void;
+    removeQuestion: (id: number) => void;
+    swapQuestion: (currentIndex: number, newIndex: number) => void;
+}) => {
+    const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(
+        question.type === "multiple_choice_question"
+            ? question.options.findIndex((s: string) => question.expected === s)
+            : -1
     );
 
     const handleNumOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
-        b(0);
         const newNum =
             parseInt(e.target.value) < 1 ? 1 : parseInt(e.target.value);
+        const newOptions = Array(newNum).fill("Example Answer");
+        const expected = newOptions[selectedOptionIndex] || newOptions[0];
         editQuestion(question.id, {
             ...question,
             type: "multiple_choice_question",
-            expected: "Example Answer",
-            options: Array(newNum).fill("Example Answer")
+            expected,
+            options: newOptions
         });
     };
 
-    const switchMulti = () => {
-        b(0);
-        editQuestion(question.id, {
-            ...question,
-            type: "multiple_choice_question",
-            expected: "Example Answer",
-            options: Array(3).fill("Example Answer")
-        });
+    const handleSwitch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newType = e.target.value as QuestionType;
+        if (newType === "short_answer_question") {
+            editQuestion(question.id, {
+                ...question,
+                type: "short_answer_question",
+                options: [],
+                expected: ""
+            });
+            setSelectedOptionIndex(-1);
+        } else if (newType === "multiple_choice_question") {
+            editQuestion(question.id, {
+                ...question,
+                type: "multiple_choice_question",
+                options: ["Option 1", "Option 2", "Option 3"],
+                expected: "Option 1"
+            });
+            setSelectedOptionIndex(0);
+        }
     };
 
     const handlePoints = (e: React.ChangeEvent<HTMLInputElement>) => {
-    	question.points = parseInt(e.target.value)
-        editQuestion(question.id, question);
+        const points = parseInt(e.target.value);
+        editQuestion(question.id, {
+            ...question,
+            points
+        });
     };
 
     const handleChoiceChange = (
@@ -47,20 +72,21 @@ export const QuestionEdit = ({
         i: number
     ) => {
         const newOptions = [...question.options];
-        newOptions.splice(i, 1, e.target.value);
+        newOptions[i] = e.target.value; //.splice(i, 1, e.target.value);
+        const expected =
+            selectedOptionIndex === i ? e.target.value : question.expected;
         editQuestion(question.id, {
             ...question,
             options: newOptions,
-            expected: a === i ? e.target.value : question.expected
+            expected
         });
     };
 
-    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const idx = parseInt(e.target.value);
-        b(idx);
+    const handleRadioChange = (i: number) => {
+        setSelectedOptionIndex(i);
         editQuestion(question.id, {
             ...question,
-            expected: question.options[idx]
+            expected: question.options[i]
         });
     };
 
@@ -177,8 +203,13 @@ export const QuestionEdit = ({
                                                         "questionChoice" + index
                                                     }
                                                     value={i}
-                                                    checked={a === i}
-                                                    onChange={handleRadioChange}
+                                                    checked={
+                                                        selectedOptionIndex ===
+                                                        i
+                                                    }
+                                                    onChange={() =>
+                                                        handleRadioChange(i)
+                                                    }
                                                 />
                                                 <Form.Control
                                                     name={

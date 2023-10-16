@@ -11,7 +11,12 @@ export const QuizExpanded = ({
     editQuiz,
     resetView,
     switchEdit
-}: {}) => {
+}: {
+    quiz: Quiz;
+    editQuiz: (quizId: number, updatedQuiz: Quiz) => void;
+    resetView: () => void;
+    switchEdit: () => void;
+}) => {
     const filteredQuestions = quiz.questionList.filter(
         (q: Question): boolean =>
             (quiz.published && q.published) || !quiz.published
@@ -19,26 +24,26 @@ export const QuizExpanded = ({
 
     const [p, sp] = useState<number>(0);
     const [submitArr, setSubmitArr] = useState<boolean[]>(
-        new Array(filteredQuestions.length)
+        new Array(filteredQuestions.length).fill(false) //new Array(filteredQuestions.length)
     );
 
     const handleQuestionSubmit = (index: number) => {
         const newSubmitArr = [...submitArr];
-        newSubmitArr.splice(index, 3, true);
+        newSubmitArr[index] = true; //newSubmitArr.splice(index, 3, true);
         setSubmitArr(newSubmitArr);
     };
 
     const totalPoints = filteredQuestions.reduce(
-        (prev: number, q: Question): number => prev + q.p,
+        (prev: number, q: Question): number => prev + q.points,
         0
     );
 
-    const addPoints = (p: number) => {
-        sp((prevCount) => prevCount + p);
+    const addPoints = (points: number) => {
+        sp((prevCount) => prevCount + points);
     };
 
     const reset = () => {
-        setSubmitArr(new Array(filteredQuestions.length));
+        setSubmitArr(new Array(filteredQuestions.length).fill(false)); //setSubmitArr(new Array(filteredQuestions.length));
         editQuiz(quiz.id, {
             ...quiz,
             questionList: quiz.questionList.map(
@@ -52,8 +57,12 @@ export const QuizExpanded = ({
     const editQuestionSub = (questionId: number, sub: string) => {
         editQuiz(quiz.id, {
             ...quiz,
-            questionList: quiz.questionList.map(
-            )
+            questionList: quiz.questionList.map((q: Question) => {
+                if (q.id === questionId) {
+                    return { ...q, submission: sub };
+                }
+                return q;
+            })
         });
     };
 
@@ -92,7 +101,7 @@ export const QuizExpanded = ({
                 <QuizQuestion
                     key={quiz.id + "|" + q.id}
                     index={index}
-                    question="q"
+                    question={q}
                     submitted={submitArr[index]}
                     handleSubmit={handleQuestionSubmit}
                     addPoints={addPoints}
