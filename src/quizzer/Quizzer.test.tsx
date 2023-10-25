@@ -169,7 +169,22 @@ describe("Quizzer Tests", () => {
         expect(screen.queryByText("Simple_Questions")).not.toBeInTheDocument();
     });
 
-    //test("Users can delete an existing quiz question", () => {});
+    test("Users can delete an existing quiz question", () => {
+        const text = screen.getByText("Simple_Questions");
+        text.click();
+        const editButton = screen.getByText("Edit");
+        editButton.click();
+
+        const deleteQButton = screen.getAllByText("Delete", { exact: true })[0];
+        deleteQButton.click();
+
+        const saveButton = screen.getByText("Save");
+        saveButton.click();
+
+        expect(
+            screen.queryByText("What is 2+2", { exact: false })
+        ).not.toBeInTheDocument();
+    });
 
     test("Users can add a new quiz question", () => {
         const text = screen.getByText("Simple_Questions");
@@ -197,7 +212,27 @@ describe("Quizzer Tests", () => {
         ).toBeInTheDocument();
     });
 
-    //test("Users can edit the questions and fields of a quiz", () => {});
+    test("Users can edit the questions and fields of a quiz", () => {
+        // Work on this test case
+        const text = screen.getByText("Simple_Questions");
+        text.click();
+
+        const initialBody = screen.getAllByTestId("question_body");
+        expect(initialBody[0]).toHaveTextContent("What is 2+2?");
+
+        const editButton = screen.getByText("Edit");
+        editButton.click();
+
+        const selectOption = screen.getAllByTestId("edit_question_title")[0];
+
+        userEvent.type(selectOption, "What is 3+3?");
+
+        const saveButton = screen.getByText("Save");
+        saveButton.click();
+
+        const finalBody = screen.getAllByTestId("question_body");
+        expect(finalBody[0]).toHaveValue("What is 3+3?");
+    });
 
     test("Users can reorder quiz questions", () => {
         const text = screen.getByText("Simple_Questions");
